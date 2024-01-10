@@ -1,0 +1,7 @@
+
+// babel should inside it when we are using node as a backend
+
+// we are respresting it as json object. so key an dvalue should be in double quotes.
+{
+    "presets": ["@babel/preset-env"]
+}
