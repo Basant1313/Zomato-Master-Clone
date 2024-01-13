@@ -11,6 +11,11 @@ const UserSchema = new mongoose.Schema({
     timestamps: true,
 });
 
+UserSchema.methods.generateJwtToken = function () {
+
+    return jwt.sign({user: {fullname, email}} ,"ZomatoApp");
+}
+
 // use for reducing code in auth API.
 UserSchema.statics.findEmailAndPhone = async (email , phoneNumber) =>{
     // check  whether the email exists
