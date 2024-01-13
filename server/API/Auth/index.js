@@ -22,11 +22,10 @@ Router.post("/signup" , async(req , res) => {
     // it is the best practice to use try and catch for debugging
     // 500 - will throw all errors inside your code its like some internal server error . As we cannot display the error code to the entire world which leads to hacking in production level.
     try {
+        
+        console.log(req.body.credentials);
 
-        const { email, password, fullname, phoneNumber} = req.body.credentials;
-
-
-        await UserModel.findEmailAndPhone (email , phoneNumber);
+        await UserModel.findEmailAndPhone (req.body.credentials);
 
         
 
@@ -47,11 +46,11 @@ Router.post("/signup" , async(req , res) => {
 
 
         //DB --> create query is used to create field inside ou database 
-        await UserModel.create( req.body.credentials);
+     const newUser =  await UserModel.create(req.body.credentials);
 
         // JWT Auth Token -> adding extra layer of security its for making transfer of information between different party very secured.
 
-        const token = jwt.sign({user: {fullname, email}} ,"ZomatoApp"); // Alot of token and personalize very much customize things which are related to security those things we are hardcoding here and that should be done we should create a .env file and we will storing all those things. its is not good practice to do this.
+        const token = newUser.generateJwtToken(); // Alot of token and personalize very much customize things which are related to security those things we are hardcoding here and that should be done we should create a .env file and we will storing all those things. its is not good practice to do this.
 
         return res.status(200).json({token}); // everything goes fine then let us just response with status 200 jwt token
 
