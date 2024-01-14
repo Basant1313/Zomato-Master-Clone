@@ -41,6 +41,28 @@ UserSchema.statics.findEmailAndPhone = async ({email , phoneNumber}) =>{
 
 // second parameter (function(next)) -> it tells what happen after the function like action has exected what are you going to do.
 
+UserSchema.statics.findByEmailAndPassword = async ({email , password}) =>{
+    // check  whether the email exists
+const user = await UserModel.findOne({email});
+
+    if(!user) throw new Error ("User Does not Exists");
+
+    // compare the password
+    const doesPasswordMatch = await bcrypt.compare(password , user.password);
+
+    // user.password -> it is actually the password the user is typing.
+
+    // password -> we will passing in the findByEmailandPassword
+
+
+
+    // whenever we use the static we can't return instead of that we can throw a error.
+    if (!doesPasswordMatch){
+        throw new Error("Invaid Password");
+    }
+
+    return user; // no User with this email or phoneNumber exists. 
+};
 // whenever i'm creating a new database and saving it then this pre function should be executed.
 UserSchema.pre("save" , function(next) {
     const user = this; // this means the present schema
