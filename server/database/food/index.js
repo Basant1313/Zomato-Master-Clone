@@ -36,7 +36,7 @@ const FoodSchema = new mongoose.Schema ({
     // addOns like coke , donut etc.
     addOns: [
         {
-            types: mongoose.Types.ObjectId,
+            type: mongoose.Types.ObjectId,
             ref: "Foods" // self referencing
         }
     ],

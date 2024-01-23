@@ -8,6 +8,7 @@ const Router = express.Router();
 
 // Models
 import { UserModel } from "../../database/users";
+import passport, { session } from "passport";
 
 /*
 
@@ -84,6 +85,38 @@ Router.post("/signin" , async(req , res) => {
 
 });
 
+
+/*
+Route    /google
+Descrip  google Signin
+Params   None
+Access   Public
+Method   Get
+*/
+
+Router.get ("/google" , passport.authenticate("google", {
+
+    scope:[
+        "https://www.googleapis.com/auth/userinfo.profile", // fetching profile
+        "https://www.googleapis.com/auth/userinfo.email", // fetching email
+        
+    ],
+
+})
+);
+
+/*
+Route    /google/callback
+Descrip  google Signin callback
+Params   None
+Access   Public
+Method   Get
+*/
+
+Router.get ("/google/callback" , passport.authenticate("google", {failureRedirect: "/"}), (req ,res) => {
+        return res.json({token: req.session.passport.user.token});
+}
+);
 export default Router;
 
 // password - Bal0r
