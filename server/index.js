@@ -18,6 +18,9 @@ import googleAuthConfig from "./config/google.config";
 import ConnectDB from "./database/connection";
 // API
 import Auth from "./API/Auth";
+import Restaurant from "./API/Restauarant";
+import Food from "./API/Food";
+import Menu from "./API/Menu";
 
 
 
@@ -43,6 +46,9 @@ zomato.use(bodyParser.json());
 // For apllication routes
 // localhost:4000/auth/signup  = auth api => signup -> endpoint , "/auth" -> microservice.
 zomato.use("/auth" , Auth);
+zomato.use("/restaurant" , Restaurant);
+zomato.use("/food" , Food);
+zomato.use("menu" , Menu);
 
 
 

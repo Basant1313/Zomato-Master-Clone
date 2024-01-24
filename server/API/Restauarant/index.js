@@ -53,7 +53,35 @@ Router.get("/:_id" , async(req  , res ) => {
 
 } );
 
+/* 
+Route        /search
+Des          Get  Restaurant details on search
+Params       NONE
+Body         searchString
+Access       Public
+Method       GET
+*/
 
+Router.get("/search" , async(req, res) => {
+
+    try{
+
+        const{searchString} = req.body;
+
+        const restaurants = await RestaurantModel.find({
+            name: {$regex: searchString, $options: "i"} //regex is basically whenever you give any of the pattern or any of the keyword inside searchString. suppose we have a pattern ("xxxxxyyyyzzzz") . so if we subString (yyyyzzz) we are searching for regex will go and find that particular restaurant which have these particular subString inside their name.
+
+            // $options: "i" means it should be case insensitive.
+
+        });  // we are using findOne because the keyword like burgerking , burgerbite so if we search for burger so it will search all restaurant having burger keyword.
+        
+        return res.json({restaurants});
+
+    }catch(error) {
+        return res.status(500).json({error: error.message});
+    }
+
+} );
 
 
 
